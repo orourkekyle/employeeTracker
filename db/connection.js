@@ -11,11 +11,11 @@ const connection = mysql.createConnection({
     database: "employees"
 });
 
-connection.connect(function(err){
+/*connection.connect(function(err){
     if (err) throw err;
     console.log("Connected as id " + connection.threadId);
     connection.end();
-});
+});*/
 
-connection.connect();
+//connection.connect();
 module.exports = connection;

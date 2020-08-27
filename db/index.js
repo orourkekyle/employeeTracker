@@ -1,7 +1,22 @@
 // class db + all query's
 const connection = require("./connection");
 
-function addEmployee(first_name, last_name, title, salary, department_id){
+class dataBase{
+
+    constructor(connection){
+        this.connection = connection;
+    }
+
+    viewEmployee(){
+        return this.connection.query("SELECT * FROM employee");
+
+        /*this.connection.query("SELECT * FROM EMPLOYEE", function(err, data){
+            console.log("Emp data: "+data);
+        })*/
+    }
+}
+
+/*function addEmployee(first_name, last_name, title, salary, department_id){
     console.log("Creating New Employee");
     var query = connection.query(
         "INSERT INTO employee SET ?",
@@ -15,7 +30,9 @@ function addEmployee(first_name, last_name, title, salary, department_id){
         function (err, res){
             if (err) throw err;
             console.log(res.affectedRows + "employee created!\n");
-            
+
         }
     )
-}
+};*/
+
+module.exports = new dataBase(connection);
