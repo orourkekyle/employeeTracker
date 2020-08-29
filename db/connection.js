@@ -1,8 +1,8 @@
-// Set up MySQL connection.
+// npm install dotenv and mysql before run the server
 const mysql = require("mysql");
-// npm install dotenv before run the server
 const dotenv = require('dotenv').config();
 
+// Connect to DB
 const connection = mysql.createConnection({
     host: "localhost",
     port: 3306,
@@ -11,11 +11,4 @@ const connection = mysql.createConnection({
     database: "employees"
 });
 
-/*connection.connect(function(err){
-    if (err) throw err;
-    console.log("Connected as id " + connection.threadId);
-    connection.end();
-});*/
-
-//connection.connect();
 module.exports = connection;

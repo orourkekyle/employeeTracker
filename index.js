@@ -1,63 +1,104 @@
-// requirements
+// require everything
 const inquirer = require("inquirer");
-const db = require("./db");
+const db = require("./db/query");
+require("console.table");
+var connection = require("./db/connection");
+const util = require("util");
 const { async } = require("rxjs");
-var Table = require('cli-table');
 
-// primary prompt
-inquirer.prompt([
-    {
-        type: "list",
-        choices: ["View Employees", "View Departments", "View Roles", "Add Employee", "Update Employee Role", "Delete Employee"],
-        name: "firstAction"
-    }
-]).then(function(response){
-    console.log("User choice: "+response.firstAction);
-    if (response.firstAction === "View Employees"){
-      viewEmp();
 
-    }
-    else if (response.firstAction === "View Departments"){
+// connect function
 
-    }
-    else if (response.firstAction === "View Roles"){
+// create main prompt function
+async function mainPrompt(){
+    const { userChoice } = await inquirer.prompt([
+        {
+            type: "list",
+            name: "userChoice",
+            Message: "What would you like to do with your employees?",
+            choices: [
+                {
+                    name: "View Employees",
+                    value: "viewEmployees"
+                },
+                {
+                    name: "View Department",
+                    value: "viewDepartment"
+                },
+                {
+                    name: "View Roles",
+                    value: "viewRoles"
+                },
+                {
+                    name: "Add Employee",
+                    value: "addEmployee"
+                },
+                {
+                    name: "Update Employee Role",
+                    value: "updateRole"
+                },
+                {
+                    name: "Delete Employee",
+                    value: "deleteEmployee"
+                },
+                {
+                    name: "Quit",
+                    value: "quit"
+                },
+            ]
+        }
+    ])
+};
 
-    }
-    else if (response.firstAction === "Add Employee"){
+// switch case to call functions based on userChoice
+switch (userChoice) {
+    case "viewEmployees":
+        return viewEmployees();
+    case "viewDepartment":
+        return viewDepartment();
+    case "viewRoles":
+        return viewRoles();
+    case "addEmployee":
+        return addEmployee();
+    case "updateRole":
+        return updateRole();
+    case "deleteEmployee":
+        return deleteEmployee();
+    case "quit":
+        return quit();
 
-    }
-    else if (response.firstAction === "Update Employee Role"){
+};
 
-    }
-    else if (response.firstAction === "Delete Employee"){
+// create async functions for each "view" userChoice
+async function viewEmployees(){
+    var emp = await db.grabAllEmployee();
+    console.table(emp);
+};
 
-    }
-});
+async function viewDepartment(){
 
-async function viewEmp(){
-    const emp = await db.viewEmployee();
+};
 
-    
- 
-// instantiate
-var table = new Table({
-    head: ['ID', 'Firt Name', "Last Name","Role ID","Manager ID"]
-});
- for(var i=0;i<emp.length;i++){
-     console.log("Inside for loop");
-     var temp = [];
+async function viewRoles(){
 
-     for(var key in emp[i]){
-         temp.push(emp[i][key]);
-         console.log("Temp: "+JSON.stringify(temp));
-     }
-     table.push(temp);
- }
-// table is an Array, so you can `push`, `unshift`, `splice` and friends
- 
-console.log(table.toString());
-    //console.table(emp);
-}
-// add employee prompt
+};
 
-// update employee role prompt
+// create functions for add+remove+update userChoice
+
+function addEmployee(){
+    // prompt to get employee data
+};
+
+function deleteEmployee(){
+    // prompt to choose employee to delete
+};
+
+function updateRole(){
+
+};
+
+function quit(){
+
+};
+
+mainPrompt();
